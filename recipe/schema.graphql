@@ -1,0 +1,29 @@
+scalar Date
+scalar Void
+
+type Account @key(fields: "id") {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  lockedAt: Date
+}
+
+input OpenAccountInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+type Meta {
+  count: Int
+}
+
+extend type Query {
+  Account(id: ID!): Account
+}
+
+type Mutation {
+  openAccount(input: OpenAccountInput!): Void
+  closeAccount(id: ID!): Void
+}

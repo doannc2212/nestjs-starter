@@ -1,0 +1,58 @@
+// aware that protovalidate is currently not support
+// so the validation rules on protobuf are not enforced
+// https://github.com/bufbuild/protovalidate/issues/67
+
+syntax = "proto3"; 
+
+package account;
+
+// Define scalar types
+message Date {
+  string value = 1; // Use string to represent Date; could be in ISO8601 format or a timestamp
+}
+
+message Void {}
+
+// Account message (representing the GraphQL Account type)
+message Account {
+  string id = 1 ;
+  string name = 2;
+  string email = 3;
+  string password = 4;
+  Date lockedAt = 5; // Optional, could be null or omitted if not set
+}
+
+// Input for opening an account (GraphQL input type OpenAccountRequest)
+message OpenAccountRequest {
+  string name = 1;
+  string email = 2;
+  string password = 3;
+}
+
+// Meta information (GraphQL Meta type)
+message Meta {
+  int32 count = 1;
+}
+
+// Define the service
+service AccountService {
+  
+  // Query: Get account by ID
+  rpc FindAccountById (FindAccountByIdRequest) returns (Account);
+  
+  // Mutation: Open a new account
+  rpc OpenAccount (OpenAccountRequest) returns (Void);
+  
+  // Mutation: Close an account
+  rpc CloseAccount (CloseAccountRequest) returns (Void);
+}
+
+// Request for GetAccount
+message FindAccountByIdRequest {
+  string id = 1;
+}
+
+// Request for CloseAccount
+message CloseAccountRequest {
+  string id = 1;
+}

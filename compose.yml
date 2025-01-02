@@ -1,0 +1,21 @@
+services:
+  database:
+    container_name: nest-database
+    image: postgres:16
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+      # PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+    # volumes:
+    # - ./pgdata:/var/lib/postgresql/data/pgdata
+
+networks:
+  default:
+    name: ${NETWORK_NAME}
+# volumes:
+#   pgdata:
