@@ -1,0 +1,17 @@
+node_modules
+.vscode
+.git*
+Dockerfile*
+dist
+*.md
+*.env
+.eslintrc.js
+.prettierc
+*ignore
+compose.yml
+.dockerignore
+LICENSE
+.editorconfig
+.idea
+coverage*
+out

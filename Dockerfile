@@ -1,38 +1,33 @@
+# beaware that asynclocalstorage is currently not work with bun in some case
+# https://github.com/oven-sh/bun/issues/6393
+
 # use the official Bun image 
 # see all versions at https://hub.docker.com/r/oven/bun/tags
-FROM oven/bun:1 AS base
-WORKDIR /usr/src/app
+from node:22-alpine as base
+workdir /usr/src/app
 
-# install dependencies into temp directory
-# this will cache them and speed up future builds
-FROM base AS install
-RUN mkdir -p /temp/dev
-COPY package.json bun.lock /temp/dev/
-RUN cd /temp/dev && bun install --frozen-lockfile
+from base as install
+run mkdir -p /temp/dev
+copy package.json bun.lock /temp/dev/
+run cd /temp/dev && bun install --frozen-lockfile
 
-# install with --production (exclude devDependencies)
-RUN mkdir -p /temp/prod
-COPY package.json bun.lock /temp/prod/
-RUN cd /temp/prod && bun install --frozen-lockfile --production
+run mkdir -p /temp/prod
+copy package.json bun.lock /temp/prod/
+run cd /temp/prod && bun install --frozen-lockfile --production
 
-# copy node_modules from temp directory
-# then copy all (non-ignored) project files into the image
-FROM base AS prerelease
-COPY --from=install /temp/dev/node_modules node_modules
-COPY . .
+from base as prerelease
+copy --from=install /temp/dev/node_modules node_modules
+copy . .
 
+run bun scripts/generate-typing.ts
+run bun scripts/generate-protoc.ts
+
+env NODE_ENV=production
 # [optional] tests & build
-ENV NODE_ENV=production
-RUN bun test
-RUN bun run build
+# run bun test
+run bun run build
 
-# copy production dependencies and source code into final image
-FROM base AS release
-COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app .
+from oven/bun:1-distroless as release
+copy --from=install /temp/prod/node_modules node_modules
+copy --from=prerelease /usr/src/app .
 
-# run the app
-EXPOSE 6000
-EXPOSE 8000
-
-ENTRYPOINT [ "bun", "run", "--bun", "dist/main.js" ]

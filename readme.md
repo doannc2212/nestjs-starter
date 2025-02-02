@@ -40,7 +40,7 @@ This repository is a starter template for NestJS applications. It includes sever
    bun install
    ```
 
-3. Configure environment variables by copying `.env.example` to `.env` and updating the values as needed.
+3. Configure environment variables by copying `.dev.env` to `.env` and updating the values as needed.
 
 ### Running the Application
 
@@ -107,11 +107,10 @@ Centralized error handling and custom interceptors are configured to manage resp
 - [x] Repository
 - [x] Presentation (graphql and grpc)
 - [x] Service communication
-- [ ] Pagination
 - [ ] Observability
 - [ ] Linter config (commitlint and eslint)
 - [ ] Formatter
-- [ ] First api example
+- [x] First api example
 
 ## License
 

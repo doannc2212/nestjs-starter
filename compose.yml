@@ -20,16 +20,14 @@ services:
       dockerfile: Dockerfile
     env_file:
       - ./.env
+    entrypoint: ['bun', 'run', '--bun', 'dist/src/main.js']
     ports:
       - '8000:8000'
       - '6000:6000'
     depends_on:
       - database
-    # restart: unless-stopped
-    restart: no
+    restart: unless-stopped
 
 networks:
   default:
     name: ${NETWORK_NAME}
-# volumes:
-#   pgdata:

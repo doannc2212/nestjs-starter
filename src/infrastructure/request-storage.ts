@@ -1,6 +1,6 @@
 import { NestMiddleware } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { AsyncLocalStorage } from 'async_hooks';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import { v4 } from 'uuid';
 
 class Storage {
@@ -62,11 +62,7 @@ class RequestStorageImplement implements RequestStorage {
 export const RequestStorage = new RequestStorageImplement();
 
 export class RequestStorageMiddleware implements NestMiddleware {
-  use(
-    request: Request,
-    response: Response,
-    next: (error?: object) => void,
-  ): void {
+  use(_: Request, __: Response, next: (error?: object) => void): void {
     RequestStorage.reset();
     next();
   }

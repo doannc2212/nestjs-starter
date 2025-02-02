@@ -16,35 +16,25 @@ export function Transactional() {
       apply: async (proxyTarget, thisArg, args) => {
         if (writeActionManager.isTransactionActive)
           RequestStorage.increaseTransactionDepth();
-        if (!writeActionManager.isTransactionActive) {
+        else {
           RequestStorage.resetTransactionDepth();
           await writeActionManager.startTransaction();
         }
         try {
           const result = await proxyTarget.apply(thisArg, args);
 
-          if (
-            writeActionManager.isTransactionActive &&
-            RequestStorage.getStorage().transactionDepth <= 0
-          )
+          if (!writeActionManager.isTransactionActive) return result;
+          if (RequestStorage.getStorage().transactionDepth <= 0)
             await writeActionManager.commitTransaction();
-          if (
-            writeActionManager.isTransactionActive &&
-            0 < RequestStorage.getStorage().transactionDepth
-          )
-            RequestStorage.decreaseTransactionDepth();
+          else RequestStorage.decreaseTransactionDepth();
+
           return result;
         } catch (error) {
-          if (
-            writeActionManager.isTransactionActive &&
-            RequestStorage.getStorage().transactionDepth <= 0
-          )
+          if (!writeActionManager.isTransactionActive) throw error;
+          if (RequestStorage.getStorage().transactionDepth <= 0)
             await writeActionManager.rollbackTransaction();
-          if (
-            writeActionManager.isTransactionActive &&
-            0 < RequestStorage.getStorage().transactionDepth
-          )
-            RequestStorage.decreaseTransactionDepth();
+          else RequestStorage.decreaseTransactionDepth();
+
           throw error;
         }
       },
