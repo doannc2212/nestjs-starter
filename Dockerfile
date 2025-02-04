@@ -1,5 +1,3 @@
-# beaware that asynclocalstorage is currently not work with bun in some case
-# https://github.com/oven-sh/bun/issues/6393
 
 # use the official Bun image 
 # see all versions at https://hub.docker.com/r/oven/bun/tags

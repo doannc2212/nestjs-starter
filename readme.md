@@ -4,6 +4,9 @@ I was unable to retrieve the current `README.md` file. Let's start with creating
 
 # NestJS Starter
 
+Be aware that asynclocalstorage is currently not work with bun in some case
+https://github.com/oven-sh/bun/issues/6393
+
 ## Overview
 
 This repository is a starter template for NestJS applications. It includes several essential features and configurations to help you get started quickly.
@@ -100,7 +103,7 @@ async create(@Body() createDto: CreateDto) {
 
 Centralized error handling and custom interceptors are configured to manage responses and errors efficiently.
 
-## Features
+## Todo
 
 - [x] Infrastrucutre
 - [x] Aggregate
