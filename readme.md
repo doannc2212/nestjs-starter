@@ -7,6 +7,8 @@ I was unable to retrieve the current `README.md` file. Let's start with creating
 Be aware that asynclocalstorage is currently not work with bun in some case
 https://github.com/oven-sh/bun/issues/6393
 
+take an eye on this: https://github.com/SocketSomeone/nestjs-resilience
+
 ## Overview
 
 This repository is a starter template for NestJS applications. It includes several essential features and configurations to help you get started quickly.
