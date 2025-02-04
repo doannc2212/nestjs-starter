@@ -111,8 +111,8 @@ Centralized error handling and custom interceptors are configured to manage resp
 - [x] Presentation (graphql and grpc)
 - [x] Service communication
 - [ ] Observability
-- [ ] Linter config (commitlint and eslint)
-- [ ] Formatter
+- [x] Linter config (commitlint and eslint)
+- [x] Formatter
 - [x] First api example
 
 ## License
