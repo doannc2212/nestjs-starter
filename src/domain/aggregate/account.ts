@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import { RpcException } from '@nestjs/microservices';
-import { ErrorMessage } from 'src/infrastructure/common/error-message';
+import { ErrorMessage } from 'src/infrastructure/error-message';
 import { AccountClosedEvent } from '../event/account-closed.event';
 import { AccountOpenedEvent } from '../event/account-opened.event';
 

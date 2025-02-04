@@ -1,7 +1,7 @@
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { AccountRepository } from 'src/domain/repositories/account.repository';
-import { ErrorMessage } from 'src/infrastructure/common/error-message';
+import { ErrorMessage } from 'src/infrastructure/error-message';
 import { InjectionToken } from 'src/infrastructure/injection';
 import { Transactional } from 'src/infrastructure/transactional';
 import { CloseAccountCommand } from './close-account.command';
