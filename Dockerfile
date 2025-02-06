@@ -1,7 +1,7 @@
 
 # use the official Bun image 
 # see all versions at https://hub.docker.com/r/oven/bun/tags
-from node:22-alpine as base
+from oven/bun:1-alpine as base
 workdir /usr/src/app
 
 from base as install
