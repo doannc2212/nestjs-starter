@@ -22,7 +22,9 @@
     "migration:run": "bun run typeorm migration:run -d ./src/infrastructure/persistence/database/datasource/typeorm.ts",
     "migration:generate": "bun run typeorm -d ./src/infrastructure/persistence/database/datasource/typeorm.ts migration:generate ./src/infrastructure/persistence/database/migrations/$(echo $NAME)",
     "migration:create": "bun run typeorm migration:create ./src/infrastructure/persistence/database/migrations/$(echo $NAME)",
-    "migration:revert": "bun run typeorm -d ./src/infrastructure/persistence/database/datasource/typeorm.ts migration:revert"
+    "migration:revert": "bun run typeorm -d ./src/infrastructure/persistence/database/datasource/typeorm.ts migration:revert",
+    "prepare": "husky",
+    "commitlint": "commitlint --edit"
   },
   "dependencies": {
     "@apollo/server": "^4.11.3",
@@ -45,6 +47,7 @@
     "dotenv": "^16.4.7",
     "graphql": "^16.10.0",
     "graphql-scalars": "^1.24.1",
+    "husky": "^9.1.7",
     "pg": "^8.13.1",
     "postgres": "^3.4.5",
     "reflect-metadata": "^0.2.2",
