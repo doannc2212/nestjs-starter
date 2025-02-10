@@ -18,7 +18,7 @@ copy --from=install /temp/dev/node_modules node_modules
 copy . .
 
 run bun scripts/generate-typing.ts
-run bun scripts/generate-protoc.ts
+run bun scripts/generate-protoc.sh
 
 env NODE_ENV=production
 # [optional] tests & build

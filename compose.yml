@@ -17,10 +17,12 @@ services:
     container_name: backend
     build:
       context: .
-      dockerfile: node.Dockerfile
+      dockerfile: Dockerfile
+      # dockerfile: node.Dockerfile
     env_file:
       - ./.env
-    entrypoint: ['node', 'dist/main']
+    # entrypoint: ['node', 'dist/main']
+    entrypoint: ['bun', 'run', '--bun', 'dist/main.js']
     ports:
       - '8000:8000'
       - '6000:6000'
