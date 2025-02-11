@@ -1,5 +1,5 @@
 import { ICommand } from '@nestjs/cqrs';
 
-export class CloseAccountCommand implements ICommand {
+export class DeleteNoteCommand implements ICommand {
   constructor(readonly id: string) {}
 }

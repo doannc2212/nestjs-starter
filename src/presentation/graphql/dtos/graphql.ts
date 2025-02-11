@@ -8,18 +8,15 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export class OpenAccountInput {
+export class CreateNoteInput {
     name: string;
-    email: string;
-    password: string;
+    description?: Nullable<string>;
 }
 
-export class Account {
+export class Note {
     id: string;
     name: string;
-    email: string;
-    password: string;
-    lockedAt?: Nullable<Date>;
+    description?: Nullable<string>;
 }
 
 export class Meta {
@@ -27,13 +24,13 @@ export class Meta {
 }
 
 export abstract class IQuery {
-    abstract Account(id: string): Nullable<Account> | Promise<Nullable<Account>>;
+    abstract Note(id: string): Nullable<Note> | Promise<Nullable<Note>>;
 }
 
 export abstract class IMutation {
-    abstract openAccount(input: OpenAccountInput): Nullable<Void> | Promise<Nullable<Void>>;
+    abstract createNote(input: CreateNoteInput): Nullable<Void> | Promise<Nullable<Void>>;
 
-    abstract closeAccount(id: string): Nullable<Void> | Promise<Nullable<Void>>;
+    abstract deleteNote(id: string): Nullable<Void> | Promise<Nullable<Void>>;
 }
 
 export type Void = any;

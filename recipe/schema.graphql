@@ -1,18 +1,15 @@
 scalar Date
 scalar Void
 
-type Account @key(fields: "id") {
+type Note @key(fields: "id") {
   id: ID!
   name: String!
-  email: String!
-  password: String!
-  lockedAt: Date
+  description: String
 }
 
-input OpenAccountInput {
+input CreateNoteInput {
   name: String!
-  email: String!
-  password: String!
+  description: String
 }
 
 type Meta {
@@ -20,10 +17,10 @@ type Meta {
 }
 
 extend type Query {
-  Account(id: ID!): Account
+  Note(id: ID!): Note
 }
 
 type Mutation {
-  openAccount(input: OpenAccountInput!): Void
-  closeAccount(id: ID!): Void
+  createNote(input: CreateNoteInput!): Void
+  deleteNote(id: ID!): Void
 }

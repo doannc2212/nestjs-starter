@@ -9,7 +9,7 @@ import { Metadata } from "@grpc/grpc-js";
 import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
 import { Observable } from "rxjs";
 
-export const protobufPackage = "account";
+export const protobufPackage = "note";
 
 /** Define scalar types */
 export interface DateMessage {
@@ -20,21 +20,17 @@ export interface DateMessage {
 export interface Void {
 }
 
-/** Account message (representing the GraphQL Account type) */
-export interface Account {
+/** Note message (representing the GraphQL Note type) */
+export interface Note {
   id: string;
   name: string;
-  email: string;
-  password: string;
-  /** Optional, could be null or omitted if not set */
-  lockedAt: DateMessage | undefined;
+  description: string;
 }
 
-/** Input for opening an account (GraphQL input type OpenAccountRequest) */
-export interface OpenAccountRequest {
+/** Input for opening an note (GraphQL input type CreateNoteRequest) */
+export interface CreateNoteRequest {
   name: string;
-  email: string;
-  password: string;
+  description: string;
 }
 
 /** Meta information (GraphQL Meta type) */
@@ -42,66 +38,63 @@ export interface Meta {
   count: number;
 }
 
-/** Request for GetAccount */
-export interface FindAccountByIdRequest {
+/** Request for GetNote */
+export interface FindNoteByIdRequest {
   id: string;
 }
 
-/** Request for CloseAccount */
-export interface CloseAccountRequest {
+/** Request for DeleteNote */
+export interface DeleteNoteRequest {
   id: string;
 }
 
-export const ACCOUNT_PACKAGE_NAME = "account";
+export const NOTE_PACKAGE_NAME = "note";
 
 /** Define the service */
 
-export interface AccountServiceClient {
-  /** Query: Get account by ID */
+export interface NoteServiceClient {
+  /** Query: Get note by ID */
 
-  findAccountById(request: FindAccountByIdRequest, metadata?: Metadata): Observable<Account>;
+  findNoteById(request: FindNoteByIdRequest, metadata?: Metadata): Observable<Note>;
 
-  /** Mutation: Open a new account */
+  /** Mutation: Create a new note */
 
-  openAccount(request: OpenAccountRequest, metadata?: Metadata): Observable<Void>;
+  createNote(request: CreateNoteRequest, metadata?: Metadata): Observable<Void>;
 
-  /** Mutation: Close an account */
+  /** Mutation: Delete a note */
 
-  closeAccount(request: CloseAccountRequest, metadata?: Metadata): Observable<Void>;
+  deleteNote(request: DeleteNoteRequest, metadata?: Metadata): Observable<Void>;
 }
 
 /** Define the service */
 
-export interface AccountServiceController {
-  /** Query: Get account by ID */
+export interface NoteServiceController {
+  /** Query: Get note by ID */
 
-  findAccountById(
-    request: FindAccountByIdRequest,
-    metadata?: Metadata,
-  ): Promise<Account> | Observable<Account> | Account;
+  findNoteById(request: FindNoteByIdRequest, metadata?: Metadata): Promise<Note> | Observable<Note> | Note;
 
-  /** Mutation: Open a new account */
+  /** Mutation: Create a new note */
 
-  openAccount(request: OpenAccountRequest, metadata?: Metadata): Promise<Void> | Observable<Void> | Void;
+  createNote(request: CreateNoteRequest, metadata?: Metadata): Promise<Void> | Observable<Void> | Void;
 
-  /** Mutation: Close an account */
+  /** Mutation: Delete a note */
 
-  closeAccount(request: CloseAccountRequest, metadata?: Metadata): Promise<Void> | Observable<Void> | Void;
+  deleteNote(request: DeleteNoteRequest, metadata?: Metadata): Promise<Void> | Observable<Void> | Void;
 }
 
-export function AccountServiceControllerMethods() {
+export function NoteServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["findAccountById", "openAccount", "closeAccount"];
+    const grpcMethods: string[] = ["findNoteById", "createNote", "deleteNote"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("AccountService", method)(constructor.prototype[method], method, descriptor);
+      GrpcMethod("NoteService", method)(constructor.prototype[method], method, descriptor);
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("AccountService", method)(constructor.prototype[method], method, descriptor);
+      GrpcStreamMethod("NoteService", method)(constructor.prototype[method], method, descriptor);
     }
   };
 }
 
-export const ACCOUNT_SERVICE_NAME = "AccountService";
+export const NOTE_SERVICE_NAME = "NoteService";

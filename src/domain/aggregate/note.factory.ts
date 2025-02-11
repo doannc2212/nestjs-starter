@@ -1,26 +1,23 @@
 import { Inject } from '@nestjs/common';
 import { EventPublisher } from '@nestjs/cqrs';
 import { v4 } from 'uuid';
-import { Account, AccountImplement, AccountProperties } from './account';
+import { Note, NoteImplement, NoteProperties } from './note';
 
-type CreateAccountOptions = {
+type CreateNoteOptions = {
   name: string;
-  email: string;
-  password: string;
+  description: string | null;
 };
 
-export class AccountFactory {
+export class NoteFactory {
   @Inject(EventPublisher) private readonly eventPublisher: EventPublisher;
 
-  create(options: CreateAccountOptions): Account {
+  create(options: CreateNoteOptions): Note {
     // https://github.com/nestjs/cqrs/blob/master/src/event-publisher.ts#L37-L56
     return this.eventPublisher.mergeObjectContext(
-      new AccountImplement({
+      new NoteImplement({
         id: v4(),
         name: options.name,
-        email: options.email,
-        password: options.password,
-        lockedAt: null,
+        description: options.description,
         createdAt: new Date(),
         updatedAt: new Date(),
         deletedAt: null,
@@ -28,7 +25,7 @@ export class AccountFactory {
     );
   }
 
-  reconstitute(props: AccountProperties): Account {
-    return this.eventPublisher.mergeObjectContext(new AccountImplement(props));
+  reconstitute(props: NoteProperties): Note {
+    return this.eventPublisher.mergeObjectContext(new NoteImplement(props));
   }
 }

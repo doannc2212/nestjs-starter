@@ -1,6 +1,6 @@
 import { IQueryResult } from '@nestjs/cqrs';
 
-export class FindAccountByIdResult implements IQueryResult {
+export class FindNoteByIdResult implements IQueryResult {
   readonly id: string;
   readonly email: string;
   readonly name: string;
@@ -8,7 +8,7 @@ export class FindAccountByIdResult implements IQueryResult {
   readonly lockedAt: Date | null;
 
   // TODO: remove `any` type
-  static from(data: any): FindAccountByIdResult {
+  static from(data: any): FindNoteByIdResult {
     return {
       id: data.id,
       email: data.email,

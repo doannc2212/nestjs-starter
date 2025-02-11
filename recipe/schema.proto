@@ -4,7 +4,7 @@
 
 syntax = "proto3"; 
 
-package account;
+package note;
 
 // Define scalar types
 message Date {
@@ -13,20 +13,17 @@ message Date {
 
 message Void {}
 
-// Account message (representing the GraphQL Account type)
-message Account {
+// Note message (representing the GraphQL Note type)
+message Note {
   string id = 1 ;
   string name = 2;
-  string email = 3;
-  string password = 4;
-  Date lockedAt = 5; // Optional, could be null or omitted if not set
+  string description = 3;
 }
 
-// Input for opening an account (GraphQL input type OpenAccountRequest)
-message OpenAccountRequest {
+// Input for opening an note (GraphQL input type CreateNoteRequest)
+message CreateNoteRequest {
   string name = 1;
-  string email = 2;
-  string password = 3;
+  string description = 2;
 }
 
 // Meta information (GraphQL Meta type)
@@ -35,24 +32,24 @@ message Meta {
 }
 
 // Define the service
-service AccountService {
+service NoteService {
   
-  // Query: Get account by ID
-  rpc FindAccountById (FindAccountByIdRequest) returns (Account);
+  // Query: Get note by ID
+  rpc FindNoteById (FindNoteByIdRequest) returns (Note);
   
-  // Mutation: Open a new account
-  rpc OpenAccount (OpenAccountRequest) returns (Void);
+  // Mutation: Create a new note
+  rpc CreateNote (CreateNoteRequest) returns (Void);
   
-  // Mutation: Close an account
-  rpc CloseAccount (CloseAccountRequest) returns (Void);
+  // Mutation: Delete a note
+  rpc DeleteNote (DeleteNoteRequest) returns (Void);
 }
 
-// Request for GetAccount
-message FindAccountByIdRequest {
+// Request for GetNote
+message FindNoteByIdRequest {
   string id = 1;
 }
 
-// Request for CloseAccount
-message CloseAccountRequest {
+// Request for DeleteNote
+message DeleteNoteRequest {
   string id = 1;
 }

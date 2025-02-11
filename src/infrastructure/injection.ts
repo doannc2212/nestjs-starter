@@ -1,3 +1,3 @@
 export enum InjectionToken {
-  AccountRepository = 'AccountRepository',
+  NoteRepository = 'NoteRepository',
 }
