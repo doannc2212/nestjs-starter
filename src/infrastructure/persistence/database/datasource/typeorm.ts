@@ -13,7 +13,7 @@ const config = {
   password: `${process.env.DATABASE_PASSWORD}`,
   database: `${process.env.DATABASE_NAME}`,
   entities: [NoteEntity],
-  migrations: ['dist/**/migrations/*{.ts,.js}'],
+  migrations: ['src/**/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
   synchronize: false,
 };
