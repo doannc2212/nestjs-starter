@@ -1,55 +1,62 @@
-// aware that protovalidate is currently not support
-// so the validation rules on protobuf are not enforced
-// https://github.com/bufbuild/protovalidate/issues/67
+syntax = "proto3";
 
-syntax = "proto3"; 
+package order;
 
-package note;
-
-// Define scalar types
-message Date {
-  string value = 1; // Use string to represent Date; could be in ISO8601 format or a timestamp
+service OrderService {
+  rpc CreateOrder (CreateOrderRequest) returns (Void);
+  rpc FindOrderById (FindOrderByIdRequest) returns (Order);
+  rpc AddItem (AddItemRequest) returns (Void);
+  rpc RemoveItem (RemoveItemRequest) returns (Void);
+  rpc UpdateQuantity (UpdateQuantityRequest) returns (Void);
+  rpc CloseOrder (CloseOrderRequest) returns (Void);
 }
 
+// Void message for void returns
 message Void {}
 
-// Note message (representing the GraphQL Note type)
-message Note {
-  string id = 1 ;
-  string name = 2;
-  string description = 3;
-}
-
-// Input for opening an note (GraphQL input type CreateNoteRequest)
-message CreateNoteRequest {
-  string name = 1;
-  string description = 2;
-}
-
-// Meta information (GraphQL Meta type)
-message Meta {
-  int32 count = 1;
-}
-
-// Define the service
-service NoteService {
-  
-  // Query: Get note by ID
-  rpc FindNoteById (FindNoteByIdRequest) returns (Note);
-  
-  // Mutation: Create a new note
-  rpc CreateNote (CreateNoteRequest) returns (Void);
-  
-  // Mutation: Delete a note
-  rpc DeleteNote (DeleteNoteRequest) returns (Void);
-}
-
-// Request for GetNote
-message FindNoteByIdRequest {
+message FindOrderByIdRequest {
   string id = 1;
 }
 
-// Request for DeleteNote
-message DeleteNoteRequest {
+message CloseOrderRequest {
   string id = 1;
+}
+
+message AddItemRequest {
+  string order_id = 1;
+  string item_id = 2;
+  int32 quantity = 3;
+}
+
+message RemoveItemRequest {
+  string order_id = 1;
+  string item_id = 2;
+}
+
+message UpdateQuantityRequest {
+  string order_id = 1;
+  string item_id = 2;
+  int32 quantity = 3;
+}
+
+message OrderItem {
+  string id = 1;
+  string item_id = 2;
+  string order_id = 3;
+  int32 quantity = 4;
+}
+
+message Order {
+  string id = 1;
+  string user_id = 2;
+  string address = 3;
+  repeated OrderItem order_items = 4;
+  string created_at = 5;  // ISO8601 format e.g., "2024-03-10T15:30:00Z"
+  string updated_at = 6;  // ISO8601 format e.g., "2024-03-10T15:30:00Z"
+  string deleted_at = 7;  // ISO8601 format e.g., "2024-03-10T15:30:00Z"
+}
+
+message CreateOrderRequest {
+  string user_id = 1;
+  string address = 2;
 }

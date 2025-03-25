@@ -1,15 +1,21 @@
 scalar Date
 scalar Void
 
-type Note @key(fields: "id") {
+type OrderItem {
   id: ID!
-  name: String!
-  description: String
+  itemId: String!
+  orderId: String!
+  quantity: Int!
 }
 
-input CreateNoteInput {
-  name: String!
-  description: String
+type Order @key(fields: "id") {
+  id: ID!
+  userId: String!
+  address: String!
+  orderItems: [OrderItem!]!
+  createdAt: Date!
+  updatedAt: Date
+  deletedAt: Date
 }
 
 type Meta {
@@ -17,10 +23,13 @@ type Meta {
 }
 
 extend type Query {
-  Note(id: ID!): Note
+  findOrderById(id: ID!): Order
 }
 
 type Mutation {
-  createNote(input: CreateNoteInput!): Void
-  deleteNote(id: ID!): Void
+  createOrder(userId: String!, address: String!): Void
+  addItem(orderId: ID!, itemId: ID!, quantity: Int!): Void
+  removeItem(orderId: ID!, itemId: ID!): Void
+  updateQuantity(orderId: ID!, itemId: ID!, quantity: Int!): Void
+  closeOrder(orderId: ID!): Void
 }

@@ -17,12 +17,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./test/jest-e2e.json --runInBand --detectOpenHandles",
     "typeorm": "ts-node ./node_modules/typeorm/cli",
-    "migration:run": "bun run typeorm migration:run -d ./src/infrastructure/persistence/database/datasource/typeorm.ts",
-    "migration:generate": "bun run typeorm -d ./src/infrastructure/persistence/database/datasource/typeorm.ts migration:generate ./src/infrastructure/persistence/database/migrations/$(echo $NAME)",
-    "migration:create": "bun run typeorm migration:create ./src/infrastructure/persistence/database/migrations/$(echo $NAME)",
-    "migration:revert": "bun run typeorm -d ./src/infrastructure/persistence/database/datasource/typeorm.ts migration:revert",
+    "migration:run": "bun run typeorm migration:run -d ./src/infrastructure/database/datasource/typeorm.ts",
+    "migration:generate": "bun run typeorm -d ./src/infrastructure/database/datasource/typeorm.ts migration:generate ./src/infrastructure/database/migrations/$(echo $NAME)",
+    "migration:create": "bun run typeorm migration:create ./src/infrastructure/database/migrations/$(echo $NAME)",
+    "migration:revert": "bun run typeorm -d ./src/infrastructure/database/datasource/typeorm.ts migration:revert",
     "prepare": "husky",
     "commitlint": "commitlint --edit"
   },
@@ -98,6 +98,9 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^src/(.*)$": "<rootDir>/$1"
+    }
   }
 }
