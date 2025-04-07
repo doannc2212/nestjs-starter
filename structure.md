@@ -4,60 +4,116 @@ Note that the tree below is the output of `rg --files | tree --fromfile`
 
 ```
 .
-├── bun.lockb
+├── bun.lock
+├── commitlint.config.ts
 ├── compose.yml
+├── Dockerfile
 ├── nest-cli.json
-├── output
+├── node.Dockerfile
 ├── package.json
-├── pnpm-lock.yaml
 ├── readme.md
+├── recipe
+│   ├── schema.graphql
+│   └── schema.proto
+├── scripts
+│   ├── generate-protoc.sh
+│   ├── generate-schema.ts
+│   └── generate-typing.ts
 ├── src
-│   ├── app.controller.spec.ts
-│   ├── app.controller.ts
 │   ├── app.module.ts
-│   ├── app.service.ts
-│   ├── application
+│   ├── core
+│   │   ├── application
+│   │   │   ├── command
+│   │   │   │   ├── add-item.handler.spec.ts
+│   │   │   │   ├── add-item.handler.ts
+│   │   │   │   ├── close-order.handler.spec.ts
+│   │   │   │   ├── close-order.handler.ts
+│   │   │   │   ├── create-order.handler.spec.ts
+│   │   │   │   ├── create-order.handler.ts
+│   │   │   │   ├── remove-item.handler.spec.ts
+│   │   │   │   ├── remove-item.handler.ts
+│   │   │   │   ├── update-quantity.handler.spec.ts
+│   │   │   │   └── update-quantity.handler.ts
+│   │   │   ├── error-message.ts
+│   │   │   ├── event
+│   │   │   │   ├── order-closed.handler.ts
+│   │   │   │   ├── order-item-added.handler.ts
+│   │   │   │   ├── order-item-removed.handler.ts
+│   │   │   │   └── order-quantity-updated.handler.ts
+│   │   │   ├── query
+│   │   │   │   ├── find-order-by-id.handler.spec.ts
+│   │   │   │   └── find-order-by-id.handler.ts
+│   │   │   └── transactional.decorator.ts
 │   │   ├── command
-│   │   │   ├── create-post.command.ts
-│   │   │   └── create-post.handler.ts
-│   │   ├── event
-│   │   │   └── post-created.handler.ts
+│   │   │   ├── add-item.command.ts
+│   │   │   ├── close-order.command.ts
+│   │   │   ├── create-order.command.ts
+│   │   │   ├── remove-item.command.ts
+│   │   │   └── update-quantity.command.ts
+│   │   ├── domain
+│   │   │   ├── aggregate
+│   │   │   │   ├── order-item.ts
+│   │   │   │   └── order.ts
+│   │   │   ├── event
+│   │   │   │   ├── order-closed.event.ts
+│   │   │   │   ├── order-item-added.event.ts
+│   │   │   │   ├── order-item-removed.event.ts
+│   │   │   │   └── order-quantity-updated.event.ts
+│   │   │   ├── factory
+│   │   │   │   └── order.factory.ts
+│   │   │   └── repository
+│   │   │       └── order.repository.ts
 │   │   └── query
-│   │       ├── find-post-by-id.handler.ts
-│   │       └── find-post-by-id.query.ts
-│   ├── domain
-│   │   ├── event
-│   │   │   └── post-created.event.ts
-│   │   └── repository.ts
+│   │       └── find-order-by-id.query.ts
+│   ├── graphql.module.ts
 │   ├── infrastructure
-│   │   ├── common
-│   │   │   ├── error.ts
-│   │   │   └── interface.ts
-│   │   ├── config
-│   │   │   └── typeorm.ts
-│   │   ├── persistence
-│   │   │   └── database
-│   │   │       └── entities
-│   │   │           └── post.entity.ts
-│   │   └── specification
-│   │       ├── schema.graphql
-│   │       └── schema.proto
-│   ├── main.ts
-│   └── presentation
-│       ├── graphql
-│       │   └── post.resolver.ts
-│       ├── grpc
-│       │   └── post.grpc.ts
-│       └── post.module.ts
+│   │   ├── database
+│   │   │   ├── database.module.ts
+│   │   │   ├── datasource
+│   │   │   │   └── typeorm.ts
+│   │   │   ├── entities
+│   │   │   │   ├── base.entity.ts
+│   │   │   │   ├── order.entity.ts
+│   │   │   │   └── order-item.entity.ts
+│   │   │   ├── migrations
+│   │   │   │   └── 1742557235367-initial.ts
+│   │   │   └── seeds
+│   │   │       ├── order-item.seed.ts
+│   │   │       ├── order.seed.ts
+│   │   │       ├── seed.ts
+│   │   │       └── unseed.ts
+│   │   └── repository
+│   │       └── order.repository.impl.ts
+│   ├── injection-token.ts
+│   ├── interface
+│   │   ├── graphql
+│   │   │   ├── dtos
+│   │   │   │   └── graphql.ts
+│   │   │   ├── order.resolver.spec.ts
+│   │   │   └── order.resolver.ts
+│   │   ├── grpc
+│   │   │   ├── order.grpc.spec.ts
+│   │   │   ├── order.grpc.ts
+│   │   │   └── specifications
+│   │   │       └── schema.ts
+│   │   └── rest
+│   │       ├── dto
+│   │       │   ├── add-item.request.dto.ts
+│   │       │   ├── create-order.request.dto.ts
+│   │       │   └── update-quantity.request.dto.ts
+│   │       ├── order.controller.spec.ts
+│   │       └── order.controller.ts
+│   └── main.ts
 ├── structure.md
 ├── test
-│   ├── app.e2e-spec.ts
-│   └── jest-e2e.json
+│   ├── jest-e2e.json
+│   ├── jest-e2e.setup.ts
+│   ├── order.graphql.e2e-spec.ts
+│   └── setup-data.ts
 ├── tsconfig.build.json
 └── tsconfig.json
 
-19 directories, 38 files
-
+31 directories, 78 files
 ```
 
 ## Using for function
